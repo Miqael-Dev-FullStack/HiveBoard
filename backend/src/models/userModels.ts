@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
+import bcrypt from "bcryptjs";
 
-export interface User extends Document {
+export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
@@ -8,7 +9,7 @@ export interface User extends Document {
   updatedAt: Date;
 }
 
-const userSchema: Schema = new Schema<User>({
+const userSchema: Schema = new Schema<IUser>({
   name: {
     type: String,
     required: true,
@@ -16,6 +17,7 @@ const userSchema: Schema = new Schema<User>({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   password: {
     type: String,
@@ -31,4 +33,4 @@ const userSchema: Schema = new Schema<User>({
   },
 });
 
-export default mongoose.model<User>("Users", userSchema);
+export default mongoose.model<IUser>("Users", userSchema);

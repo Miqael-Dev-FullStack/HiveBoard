@@ -1,1 +1,30 @@
-node_modules
+# Node.js dependencies
+node_modules/
+
+# dotenv environment variables
+.env
+
+# Build output
+dist/
+build/
+
+# Logs
+*.log
+
+# Coverage reports
+coverage/
+
+# Editor directories and files
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Dependency manager lock files (optional)
+yarn.lock
+package-lock.json
+
+# Backup files
+*~
