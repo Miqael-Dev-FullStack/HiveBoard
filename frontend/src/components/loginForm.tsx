@@ -22,7 +22,7 @@ export default function LoginForm() {
           />
           <input
             type="email"
-            className="w-[15rem] border-none outline-none text-gray-500"
+            className="w-[15rem] text-[14px] border-none outline-none text-gray-500"
             placeholder="Email"
           />
         </div>
@@ -33,7 +33,7 @@ export default function LoginForm() {
           />
           <input
             type={isPasswordVisible ? "text" : "password"}
-            className="w-[15rem] border-none outline-none text-gray-500"
+            className="w-[15rem] text-[14px] border-none outline-none text-gray-500"
             placeholder="Password"
           />
           <div
@@ -47,13 +47,14 @@ export default function LoginForm() {
           </div>
         </div>
       </div>
-      <p className="w-full text-blue-500 text-[14px] text-right">
+      <p className="w-full text-blue-500 text-[13px] text-right">
         <Link href="/forgot-password" className="cursor-pointer">
           <u>Forgot Password</u>
         </Link>
       </p>
-      <button className="bg-[#FFD700] mt-[10px] w-full hover:bg-[#efd22a] text-black font-[500] p-2 text-[15px] rounded-sm">
-        Login
+      <button className="bg-[#FFD700] mt-[10px] justify-center flex items-center w-full hover:bg-[#efd22a] text-black font-[500] p-2 text-[15px] rounded-sm">
+        {/* <img src="/loading.gif" alt="loading" className="w-[25px]" /> */}
+        <p>Login</p>
       </button>
       <div className=" w-full flex  items-center">
         <div className="bg-gray-300 w-full h-[1px]"></div>
@@ -67,7 +68,7 @@ export default function LoginForm() {
             alt="google"
             className="w-[16px] cursor-pointer"
           />
-          <p className="text-[14px]">Google</p>
+          <p className="text-[13px]">Google</p>
         </div>
         <div className="flex w-full justify-center items-center gap-2 border-2 border-gray-300 p-2 rounded-md">
           <img
@@ -75,7 +76,7 @@ export default function LoginForm() {
             alt="linkedin"
             className="w-[16px] cursor-pointer"
           />
-          <p className="text-[14px]">Linkedin</p>
+          <p className="text-[13px]">Linkedin</p>
         </div>
       </div>
       <div className="flex items-center gap-1 mt-3 ">

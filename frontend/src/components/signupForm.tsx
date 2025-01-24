@@ -23,7 +23,7 @@ export default function LoginForm() {
           />
           <input
             type="text"
-            className="w-[15rem] border-none outline-none text-gray-500"
+            className="w-[15rem] text-[14px] border-none outline-none text-gray-500"
             placeholder="Full name"
           />
         </div>
@@ -34,7 +34,7 @@ export default function LoginForm() {
           />
           <input
             type="email"
-            className="w-[15rem] border-none outline-none text-gray-500"
+            className="w-[15rem] text-[14px] border-none outline-none text-gray-500"
             placeholder="Email"
           />
         </div>
@@ -45,7 +45,7 @@ export default function LoginForm() {
           />
           <input
             type={isPasswordVisible ? "text" : "password"}
-            className="w-[15rem] border-none outline-none text-gray-500"
+            className="w-[15rem] text-[14px] border-none outline-none text-gray-500"
             placeholder="Password"
           />
           <div
@@ -54,7 +54,7 @@ export default function LoginForm() {
           >
             <FontAwesomeIcon
               icon={isPasswordVisible ? faEye : faEyeSlash}
-              className="w-[20px] text-gray-500"
+              className="w-[20px]  text-gray-500"
             />
           </div>
         </div>
@@ -75,7 +75,7 @@ export default function LoginForm() {
             alt="google"
             className="w-[16px] cursor-pointer"
           />
-          <p className="text-[14px]">Google</p>
+          <p className="text-[13px]">Google</p>
         </div>
         <div className="flex w-full justify-center items-center gap-2 border-2 border-gray-300 p-2 rounded-md">
           <img
@@ -83,7 +83,7 @@ export default function LoginForm() {
             alt="linkedin"
             className="w-[16px] cursor-pointer"
           />
-          <p className="text-[14px]">Linkedin</p>
+          <p className="text-[13px]">Linkedin</p>
         </div>
       </div>
       <div className="flex items-center gap-1 mt-3 ">
