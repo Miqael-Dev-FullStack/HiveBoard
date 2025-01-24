@@ -8,61 +8,118 @@ import {
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signupSchema, signupFormValues } from "@/utils/validationSchema";
 
 export default function LoginForm() {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const button = useRef<HTMLButtonElement>(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<signupFormValues>({
+    resolver: zodResolver(signupSchema),
+  });
+
+  const onSubmit = (data: signupFormValues) => {
+    console.log(data);
+    setLoading(true);
+  };
+
+  if (loading) {
+    if (button.current) {
+      button.current.disabled = true;
+      button.current.style.background = "#cccccc";
+    }
+  }
+
   return (
     <div className="flex rounded-md shadow-md p-4 bg-white flex-col gap-2 items-center">
       <h2 className="text-[20px] mb-3 font-bold">Sign up</h2>
-      <div className="flex flex-col gap-6">
-        <div className="flex items-center border-2 border-gray-300 p-2 rounded-sm">
-          <FontAwesomeIcon
-            icon={faUser}
-            className="mr-2 w-[18px] text-gray-500"
-          />
-          <input
-            type="text"
-            className="w-[15rem] text-[14px] border-none outline-none text-gray-500"
-            placeholder="Full name"
-          />
-        </div>
-        <div className="flex items-center border-2 border-gray-300 p-2 rounded-sm">
-          <FontAwesomeIcon
-            icon={faEnvelope}
-            className="mr-2 w-[18px] text-gray-500"
-          />
-          <input
-            type="email"
-            className="w-[15rem] text-[14px] border-none outline-none text-gray-500"
-            placeholder="Email"
-          />
-        </div>
-        <div className="flex items-center border-2 border-gray-300 p-2 rounded-sm">
-          <FontAwesomeIcon
-            icon={faLock}
-            className="mr-2 w-[15px] text-gray-500"
-          />
-          <input
-            type={isPasswordVisible ? "text" : "password"}
-            className="w-[15rem] text-[14px] border-none outline-none text-gray-500"
-            placeholder="Password"
-          />
-          <div
-            className="flex items-center cursor-pointer"
-            onClick={() => setPasswordVisible(!isPasswordVisible)}
-          >
-            <FontAwesomeIcon
-              icon={isPasswordVisible ? faEye : faEyeSlash}
-              className="w-[20px]  text-gray-500"
-            />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="flex flex-col">
+          <div className="mb-6">
+            <div className="flex items-center border-2 border-gray-300 p-2 rounded-sm">
+              <FontAwesomeIcon
+                icon={faUser}
+                className="mr-2 w-[18px] text-gray-500"
+              />
+              <input
+                type="text"
+                {...register("username")}
+                className="w-[15rem] text-[14px] border-none outline-none text-gray-500"
+                placeholder="Full name"
+              />
+            </div>
+            {errors.username && (
+              <p className="text-[13px] text-red-500">
+                {errors.username.message}
+              </p>
+            )}
+          </div>
+          <div className="mb-6">
+            <div className="flex items-center border-2 border-gray-300 p-2 rounded-sm">
+              <FontAwesomeIcon
+                icon={faEnvelope}
+                className="mr-2 w-[18px] text-gray-500"
+              />
+              <input
+                type="email"
+                {...register("email")}
+                className="w-[15rem] text-[14px] border-none outline-none text-gray-500"
+                placeholder="Email"
+              />
+            </div>
+            {errors.email && (
+              <p className="text-[13px] text-red-500">{errors.email.message}</p>
+            )}
+          </div>
+          <div className="mb-6">
+            <div className="flex items-center border-2 border-gray-300 p-2 rounded-sm">
+              <FontAwesomeIcon
+                icon={faLock}
+                className="mr-2 w-[15px] text-gray-500"
+              />
+              <input
+                type={isPasswordVisible ? "text" : "password"}
+                {...register("password")}
+                className="w-[15rem] text-[14px] border-none outline-none text-gray-500"
+                placeholder="Password"
+              />
+              <div
+                className="flex items-center cursor-pointer"
+                onClick={() => setPasswordVisible(!isPasswordVisible)}
+              >
+                <FontAwesomeIcon
+                  icon={isPasswordVisible ? faEye : faEyeSlash}
+                  className="w-[20px]  text-gray-500"
+                />
+              </div>
+            </div>
+            {errors.password && (
+              <p className="text-[13px] text-red-500">
+                {errors.password.message}
+              </p>
+            )}
           </div>
         </div>
-      </div>
 
-      <button className="bg-[#FFD700] mt-[10px] w-full hover:bg-[#efd22a] text-black font-[500] p-2 text-[15px] rounded-sm">
-        Sign up
-      </button>
+        <button
+          type="submit"
+          ref={button}
+          className="bg-[#FFD700] mt-[10px] flex justify-center items-center w-full hover:bg-[#efd22a] text-black font-[500] p-2 text-[15px] rounded-sm"
+        >
+          {loading ? (
+            <img src="/loading.gif" alt="loading" className="w-[25px]" />
+          ) : (
+            <p>Login</p>
+          )}
+        </button>
+      </form>
       <div className=" w-full flex  items-center">
         <div className="bg-gray-300 w-full h-[1px]"></div>
         <p className="p-2 text-gray-500 text-[14px] text-center">Or</p>
