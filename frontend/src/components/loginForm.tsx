@@ -7,12 +7,15 @@ import {
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema, loginFormValues } from "@/utils/validationSchema";
+import { loginSchema, loginFormValues } from "../../utils/validationSchema";
 import { useForm } from "react-hook-form";
+import { api } from "../../utils/api";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
+  const router = useRouter();
   const button = useRef<HTMLButtonElement>(null);
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -24,16 +27,28 @@ export default function LoginForm() {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (data: loginFormValues) => {
+  const onSubmit = async (data: loginFormValues) => {
     setLoading(true);
-    console.log(data);
-  };
-  if (loading) {
-    if (button.current) {
-      button.current.disabled = true;
-      button.current.style.background = "#cccccc";
+    try {
+      const response = await api.login(data);
+      if (response) {
+        router.push("/");
+      } else {
+        alert("login failed please try again");
+      }
+    } catch (error) {
+      console.log(error);
     }
-  }
+  };
+
+  useEffect(() => {
+    if (loading === true) {
+      if (button.current) {
+        button.current.disabled = true;
+        button.current.style.background = "#cccccc";
+      }
+    }
+  }, [loading]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

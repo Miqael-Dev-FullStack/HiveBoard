@@ -11,7 +11,8 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signupSchema, signupFormValues } from "@/utils/validationSchema";
+import { signupSchema, signupFormValues } from "../../utils/validationSchema";
+import { api } from "../../utils/api";
 
 export default function LoginForm() {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -26,7 +27,7 @@ export default function LoginForm() {
   });
 
   const onSubmit = (data: signupFormValues) => {
-    console.log(data);
+    api.signup(data);
     setLoading(true);
   };
 

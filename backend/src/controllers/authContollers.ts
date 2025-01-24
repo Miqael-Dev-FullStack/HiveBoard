@@ -17,9 +17,7 @@ export const signup = async (req: Request, res: Response): Promise<any> => {
       email,
       password: hashedPassword,
     });
-    res
-      .status(201)
-      .send({ message: "User created successfully", user: newUser });
+    res.status(201).send({ message: "User created successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Something went wrong" });
@@ -47,7 +45,7 @@ export const login = async (req: Request, res: Response): Promise<any> => {
       maxAge: 24 * 60 * 60 * 1000,
     });
 
-    res.status(200).send({ message: "Login successful", user });
+    res.status(200).send({ message: "Login successful" });
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Something went wrong" });
