@@ -14,7 +14,7 @@ export const api = {
     return response.data;
   },
   signup: async (credentials: {
-    username: string;
+    name: string;
     email: string;
     password: string;
   }) => {

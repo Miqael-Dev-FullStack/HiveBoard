@@ -8,13 +8,15 @@ import {
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signupSchema, signupFormValues } from "../../utils/validationSchema";
 import { api } from "../../utils/api";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
+  const router = useRouter();
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const button = useRef<HTMLButtonElement>(null);
@@ -26,17 +28,28 @@ export default function LoginForm() {
     resolver: zodResolver(signupSchema),
   });
 
-  const onSubmit = (data: signupFormValues) => {
-    api.signup(data);
+  const onSubmit = async (data: signupFormValues) => {
     setLoading(true);
+    try {
+      const response = await api.signup(data);
+      if (response) {
+        router.push("/login");
+      } else {
+        alert("signup failed please try again");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  if (loading) {
-    if (button.current) {
-      button.current.disabled = true;
-      button.current.style.background = "#cccccc";
+  useEffect(() => {
+    if (loading) {
+      if (button.current) {
+        button.current.disabled = true;
+        button.current.style.background = "#cccccc";
+      }
     }
-  }
+  }, [loading]);
 
   return (
     <div className="flex rounded-md shadow-md p-4 bg-white flex-col gap-2 items-center">
@@ -51,15 +64,13 @@ export default function LoginForm() {
               />
               <input
                 type="text"
-                {...register("username")}
+                {...register("name")}
                 className="w-[15rem] text-[14px] border-none outline-none text-gray-500"
                 placeholder="Full name"
               />
             </div>
-            {errors.username && (
-              <p className="text-[13px] text-red-500">
-                {errors.username.message}
-              </p>
+            {errors.name && (
+              <p className="text-[13px] text-red-500">{errors.name.message}</p>
             )}
           </div>
           <div className="mb-6">
@@ -117,7 +128,7 @@ export default function LoginForm() {
           {loading ? (
             <img src="/loading.gif" alt="loading" className="w-[25px]" />
           ) : (
-            <p>Login</p>
+            <p>Sign up</p>
           )}
         </button>
       </form>
