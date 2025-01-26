@@ -42,7 +42,7 @@ export default function LoginForm() {
   };
 
   useEffect(() => {
-    if (loading === true) {
+    if (loading == true) {
       if (button.current) {
         button.current.disabled = true;
         button.current.style.background = "#cccccc";

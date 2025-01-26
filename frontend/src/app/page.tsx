@@ -15,7 +15,7 @@ const Dashboard = () => {
         const userData = await api.me();
         setUser(userData);
       } catch (error) {
-        console.error("User not authenticated", error);
+        console.log("User not authenticated", error);
         router.push("/login");
       }
     };
@@ -26,6 +26,14 @@ const Dashboard = () => {
     <div className="w-full h-dvh flex flex-col gap-2 items-center justify-center">
       <h1>{user.name}</h1>
       <h1>{user.email}</h1>
+      <button
+        onClick={() => {
+          api.logout();
+          router.push("/login");
+        }}
+      >
+        Logout
+      </button>
     </div>
   );
 };
