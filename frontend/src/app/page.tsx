@@ -2,6 +2,7 @@
 import { api } from "../../utils/api";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { auth, signOut } from "../../auth";
 const Dashboard = () => {
   const [user, setUser] = useState({
     name: "",

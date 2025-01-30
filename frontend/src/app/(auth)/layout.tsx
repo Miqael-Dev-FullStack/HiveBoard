@@ -1,3 +1,5 @@
+"use client";
+import { SessionProvider } from "next-auth/react";
 import Template from "../Template";
 
 const AuthLauyout = ({ children }: { children: React.ReactNode }) => {
@@ -12,7 +14,9 @@ const AuthLauyout = ({ children }: { children: React.ReactNode }) => {
           className="w-[10%] mb-10 mt-[-5rem]"
           alt="Logo"
         />
-        <div>{children}</div>
+        <div>
+          <SessionProvider>{children}</SessionProvider>
+        </div>
       </div>
     </div>
   );

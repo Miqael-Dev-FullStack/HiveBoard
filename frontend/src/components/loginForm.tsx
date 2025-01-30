@@ -13,12 +13,15 @@ import { loginSchema, loginFormValues } from "../../utils/validationSchema";
 import { useForm } from "react-hook-form";
 import { api } from "../../utils/api";
 import { useRouter } from "next/navigation";
+import { auth } from "../../auth";
+import { signIn, useSession } from "next-auth/react";
 
 export default function LoginForm() {
   const router = useRouter();
   const button = useRef<HTMLButtonElement>(null);
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState({});
   const {
     register,
     handleSubmit,
@@ -40,6 +43,7 @@ export default function LoginForm() {
       console.log(error);
     }
   };
+  const { data: session } = useSession();
 
   useEffect(() => {
     if (loading == true) {
@@ -50,6 +54,7 @@ export default function LoginForm() {
     }
   }, [loading]);
 
+  console.log(session);
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex rounded-md shadow-md p-4 bg-white flex-col gap-2 items-center">
@@ -121,7 +126,10 @@ export default function LoginForm() {
           <div className="bg-gray-300 w-full h-[1px]"></div>
         </div>
         <div className="flex w-full gap-2">
-          <div className="flex w-full justify-center items-center gap-2 border-2 border-gray-300 p-2 rounded-md">
+          <div
+            onClick={() => signIn("google")}
+            className=" cursor-pointer flex w-full justify-center items-center gap-2 border-2 border-gray-300 p-2 rounded-md"
+          >
             <img
               src="/google.png"
               alt="google"
