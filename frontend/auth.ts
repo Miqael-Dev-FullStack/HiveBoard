@@ -17,19 +17,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async session({ session, token }) {
-      // Attach the user ID to the session
-      if (session.user) {
-        session.user.id = token.sub as string; // `token.sub` contains the user ID
-      }
-      return session;
-    },
-    async jwt({ token, user }) {
-      // Attach the user ID to the token
-      if (user) {
-        token.sub = user.id;
+    async jwt({ token, account }) {
+      if (account) {
+        token.sub = account.providerAccountId;
+        token.idToken = account.id_token;
       }
       return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.sub as string;
+      }
+      session.idToken = token.idToken as string;
+      return session;
     },
   },
 });

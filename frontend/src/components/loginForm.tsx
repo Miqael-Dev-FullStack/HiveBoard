@@ -43,7 +43,9 @@ export default function LoginForm() {
       console.log(error);
     }
   };
+
   const { data: session } = useSession();
+  console.log(session?.idToken);
 
   useEffect(() => {
     if (loading == true) {
@@ -54,7 +56,6 @@ export default function LoginForm() {
     }
   }, [loading]);
 
-  console.log(session);
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex rounded-md shadow-md p-4 bg-white flex-col gap-2 items-center">
