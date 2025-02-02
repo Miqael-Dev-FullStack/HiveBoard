@@ -6,6 +6,7 @@ import cors from "cors";
 
 const app = express();
 
+// Middlewares
 app.use(express.json());
 app.use(cookieParser());
 app.use(
@@ -15,22 +16,26 @@ app.use(
   })
 );
 
+// Public Route
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+// User Routes
 app.use("/", userRoutes);
 
-app.get("/me", authMiddleware, async (req, res) => {
+// Protected Routes
+app.get("/me", authMiddleware, (req, res) => {
   res.status(200).json({
     id: req.user?.id,
     name: req.user?.name,
     email: req.user?.email,
+    picture: req.user?.picture,
   });
 });
 
 app.get("/dashboard", authMiddleware, (req, res) => {
-  res.send(`Hello ${req.user?.name}`);
+  res.send(`Hello, ${req.user?.name}! Welcome to your dashboard.`);
 });
 
 export default app;

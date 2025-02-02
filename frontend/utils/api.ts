@@ -29,4 +29,22 @@ export const api = {
     const response = await apiClient.get("/me");
     return response.data;
   },
+  googleLogin: async (credential: string) => {
+    try {
+      const response = await apiClient.post("/google", {
+        id_token: credential,
+      });
+      return response.data;
+    } catch (error) {
+      throw handleApiError(error);
+    }
+  },
+};
+
+// Handle API errors consistently
+const handleApiError = (error: any) => {
+  if (axios.isAxiosError(error)) {
+    return error.response?.data || { message: "An unexpected error occurred." };
+  }
+  return { message: "An unexpected error occurred." };
 };

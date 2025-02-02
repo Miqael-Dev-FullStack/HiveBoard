@@ -15,6 +15,7 @@ import { api } from "../../utils/api";
 import { useRouter } from "next/navigation";
 import { auth } from "../../auth";
 import { signIn, useSession } from "next-auth/react";
+import GoogleSignUpBtn from "./googleSignUpBtn";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -44,9 +45,6 @@ export default function LoginForm() {
     }
   };
 
-  const { data: session } = useSession();
-  console.log(session?.idToken);
-
   useEffect(() => {
     if (loading == true) {
       if (button.current) {
@@ -56,11 +54,17 @@ export default function LoginForm() {
     }
   }, [loading]);
 
+  const [error, setError] = useState("");
+  console.log(error);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex rounded-md shadow-md p-4 bg-white flex-col gap-2 items-center">
+      <div className="flex rounded-md  w-[21rem] shadow-md p-4 bg-white flex-col gap-2 items-center">
         <h2 className="text-[20px] mb-3 font-bold">Login</h2>
-        <div className="flex flex-col">
+        {error && (
+          <p className="text-red-500 text-[12.5px] mb-3 w-[100%]">{error}</p>
+        )}
+        <div className="flex w-full flex-col">
           <div className="flex flex-col  mb-6">
             <div className="flex items-center border-2 border-gray-300 p-2 rounded-sm">
               <FontAwesomeIcon
@@ -69,7 +73,7 @@ export default function LoginForm() {
               />
               <input
                 type="email"
-                className="w-[15rem] text-[14px] border-none outline-none text-gray-500"
+                className="w-full text-[14px] border-none outline-none text-gray-500"
                 placeholder="Email"
                 {...register("email")}
               />
@@ -78,14 +82,14 @@ export default function LoginForm() {
               <p className="text-[13px] text-red-500">{errors.email.message}</p>
             )}
           </div>
-          <div className="flex items-center border-2 border-gray-300 p-2 rounded-sm">
+          <div className="flex w-full items-center border-2 border-gray-300 p-2 rounded-sm">
             <FontAwesomeIcon
               icon={faLock}
               className="mr-2 w-[15px] text-gray-500"
             />
             <input
               type={isPasswordVisible ? "text" : "password"}
-              className="w-[15rem] text-[14px] border-none outline-none text-gray-500"
+              className="w-[100%] text-[14px] border-none outline-none text-gray-500"
               placeholder="Password"
               {...register("password")}
             />
@@ -126,25 +130,9 @@ export default function LoginForm() {
           <p className="p-2 text-gray-500 text-[14px] text-center">Or</p>
           <div className="bg-gray-300 w-full h-[1px]"></div>
         </div>
-        <div className="flex w-full gap-2">
-          <div
-            onClick={() => signIn("google")}
-            className=" cursor-pointer flex w-full justify-center items-center gap-2 border-2 border-gray-300 p-2 rounded-md"
-          >
-            <img
-              src="/google.png"
-              alt="google"
-              className="w-[16px] cursor-pointer"
-            />
-            <p className="text-[13px]">Google</p>
-          </div>
-          <div className="flex w-full justify-center items-center gap-2 border-2 border-gray-300 p-2 rounded-md">
-            <img
-              src="/linkedin.png"
-              alt="linkedin"
-              className="w-[16px] cursor-pointer"
-            />
-            <p className="text-[13px]">Linkedin</p>
+        <div className="flex w-full">
+          <div className=" cursor-pointer flex w-full">
+            <GoogleSignUpBtn setError={setError} />
           </div>
         </div>
         <div className="flex items-center gap-1 mt-3 ">
